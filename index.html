@@ -521,8 +521,31 @@
       }
     }
   </style>
+  <script>
+    !function(f, b, e, v, n, t, s) {
+      if (f.fbq) return;
+      n = f.fbq = function() {
+        n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
+      };
+      if (!f._fbq) f._fbq = n;
+      n.push = n;
+      n.loaded = true;
+      n.version = "2.0";
+      n.queue = [];
+      t = b.createElement(e);
+      t.async = true;
+      t.src = v;
+      s = b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t, s);
+    }(window, document, "script", "https://connect.facebook.net/en_US/fbevents.js");
+    fbq("init", "928793366363543");
+    fbq("track", "PageView");
+  </script>
 </head>
 <body>
+  <noscript>
+    <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=928793366363543&ev=PageView&noscript=1" alt="">
+  </noscript>
   <section class="hero">
     <div class="hero__shell">
       <div class="hero__copy">
@@ -674,5 +697,14 @@ Avoid sounding generic, exaggerated, or salesy.</p>
       <p class="risk-reversal">14 day money back guarantee, if you don&#39;t find it valuable, don&#39;t pay</p>
     </section>
   </main>
+  <script>
+    document.querySelectorAll(".cta").forEach(function(button) {
+      button.addEventListener("click", function() {
+        if (typeof fbq === "function") {
+          fbq("track", "InitiateCheckout");
+        }
+      });
+    });
+  </script>
 </body>
 </html>
