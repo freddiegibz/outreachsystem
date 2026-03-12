@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI LinkedIn Outreach Opener Generator</title>
+  <style>
+    :root {
+      --bg: #f4f6f8;
+      --bg-soft: #fbfcfd;
+      --surface: rgba(255, 255, 255, 0.96);
+      --surface-strong: #ffffff;
+      --text: #111827;
+      --muted: #4b5563;
+      --navy: #0f2747;
+      --navy-soft: #1c3d68;
+      --gold: #e1b64d;
+      --gold-deep: #c99622;
+      --line: rgba(15, 39, 71, 0.1);
+      --shadow: 0 24px 70px rgba(15, 39, 71, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(225, 182, 77, 0.12), transparent 28%),
+        linear-gradient(180deg, #fbfcfd 0%, var(--bg) 100%);
+      min-height: 100vh;
+    }
+
+    .hero {
+      min-height: clamp(620px, 88vh, 900px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px 16px;
+    }
+
+    .hero__shell {
+      width: min(1120px, 100%);
+      display: grid;
+      grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+      gap: 24px;
+      align-items: center;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(248, 250, 252, 0.98));
+      box-shadow: var(--shadow);
+    }
+
+    .hero__copy {
+      padding: 16px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      margin: 0 0 20px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(225, 182, 77, 0.14);
+      color: var(--navy);
+      font: 700 0.76rem/1 Arial, sans-serif;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 14ch;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(2.2rem, 4.3vw, 4rem);
+      line-height: 1.02;
+      letter-spacing: -0.03em;
+      color: var(--navy);
+    }
+
+    .subheadline {
+      margin: 18px 0 0;
+      max-width: 31rem;
+      font: 400 1.02rem/1.62 Arial, sans-serif;
+      color: var(--muted);
+    }
+
+    .hero__actions {
+      margin-top: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 56px;
+      padding: 16px 24px;
+      border: 1px solid rgba(0, 0, 0, 0.04);
+      border-radius: 14px;
+      background: var(--navy);
+      color: #fff;
+      text-decoration: none;
+      font: 700 1rem/1 Arial, sans-serif;
+      box-shadow: 0 18px 36px rgba(15, 39, 71, 0.2);
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .cta:hover,
+    .cta:focus-visible {
+      background: var(--navy-soft);
+      transform: translateY(-1px);
+    }
+
+    .trust {
+      margin: 0;
+      font: 600 0.9rem/1.4 Arial, sans-serif;
+      color: var(--muted);
+    }
+
+    .risk-reversal {
+      margin: 0;
+      font: 600 0.86rem/1.45 Arial, sans-serif;
+      color: var(--navy-soft);
+    }
+
+    .visual {
+      position: relative;
+      padding: 12px;
+      border-radius: 24px;
+      border: 1px solid rgba(15, 39, 71, 0.1);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(247, 250, 252, 0.98));
+      overflow: hidden;
+    }
+
+    .visual::before,
+    .visual::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.85;
+    }
+
+    .visual::before {
+      width: 220px;
+      height: 220px;
+      top: -80px;
+      right: -60px;
+      background: rgba(225, 182, 77, 0.16);
+    }
+
+    .visual::after {
+      width: 180px;
+      height: 180px;
+      bottom: -70px;
+      left: -40px;
+      background: rgba(15, 39, 71, 0.06);
+    }
+
+    .visual__card {
+      position: relative;
+      z-index: 1;
+      height: auto;
+      aspect-ratio: 16 / 11;
+      display: flex;
+      align-items: stretch;
+      justify-content: center;
+      padding: 14px;
+      border: 1px dashed rgba(15, 39, 71, 0.22);
+      border-radius: 20px;
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(251, 252, 253, 0.9));
+    }
+
+    .visual__image {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 12px 30px rgba(15, 39, 71, 0.1);
+    }
+
+    .page {
+      width: min(1120px, calc(100% - 32px));
+      margin: 8px auto 56px;
+    }
+
+    .section {
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(248, 250, 252, 0.98));
+      box-shadow: 0 18px 40px rgba(15, 39, 71, 0.06);
+    }
+
+    .page > .section + .section {
+      margin-top: 20px;
+    }
+
+    .section h2 {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1.9rem, 3vw, 2.8rem);
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      color: var(--navy);
+    }
+
+    .section-intro {
+      margin: 12px 0 0;
+      max-width: 42rem;
+      font-size: 1rem;
+      line-height: 1.65;
+      color: var(--muted);
+    }
+
+    .steps,
+    .examples,
+    .points {
+      display: grid;
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    .steps {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      padding: 0;
+      list-style: none;
+      counter-reset: step;
+    }
+
+    .examples {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .points {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .steps li,
+    .example__panel,
+    .point {
+      padding: 18px;
+      border: 1px solid rgba(15, 39, 71, 0.1);
+      border-radius: 20px;
+      background: var(--surface-strong);
+    }
+
+    .steps li::before {
+      counter-increment: step;
+      content: "0" counter(step);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      margin-bottom: 12px;
+      border-radius: 999px;
+      background: rgba(225, 182, 77, 0.16);
+      color: var(--navy);
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .steps h3,
+    .point h3 {
+      margin: 0 0 8px;
+      font-size: 1rem;
+      line-height: 1.4;
+      color: var(--navy);
+    }
+
+    .steps p,
+    .point p,
+    .example__panel p,
+    .section-close,
+    .cta-close p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 0.98rem;
+    }
+
+    .placeholder-box,
+    .example-placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      border: 1px dashed rgba(15, 39, 71, 0.22);
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(251, 252, 253, 0.9));
+      color: var(--navy);
+      font-weight: 700;
+      line-height: 1.7;
+    }
+
+    .placeholder-box {
+      margin-top: 18px;
+      padding: 10px;
+    }
+
+    .workflow-image {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 16px;
+      box-shadow: 0 12px 30px rgba(15, 39, 71, 0.1);
+    }
+
+    .example-placeholder {
+      display: block;
+      margin: 12px 0;
+      padding: 10px;
+    }
+
+    .example-image {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 14px;
+      box-shadow: 0 10px 26px rgba(15, 39, 71, 0.1);
+    }
+
+    .section-cta-line {
+      margin: 14px 0 0;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .get-list {
+      margin: 18px 0 0;
+      padding-left: 20px;
+    }
+
+    .get-list li {
+      margin: 0 0 12px;
+      padding-left: 4px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--navy-soft);
+    }
+
+    .example-copy {
+      margin: 0 0 14px;
+      color: var(--text);
+      line-height: 1.6;
+      font-size: 0.96rem;
+    }
+
+    .cta-close {
+      text-align: center;
+      padding: 30px 24px;
+    }
+
+    .cta-close p {
+      max-width: 38rem;
+      margin: 12px auto 0;
+    }
+
+    .cta-close .cta {
+      margin-top: 20px;
+    }
+
+    .cta-close .trust {
+      margin-top: 12px;
+    }
+
+    .cta-close .risk-reversal {
+      margin-top: 8px;
+    }
+
+    .preview-card {
+      margin-top: 20px;
+      padding: 18px;
+      border: 1px solid rgba(15, 39, 71, 0.1);
+      border-radius: 20px;
+      background: #f8fafc;
+    }
+
+    .preview-block + .preview-block {
+      margin-top: 14px;
+    }
+
+    .preview-label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--navy-soft);
+    }
+
+    .preview-code,
+    .preview-text {
+      margin: 0;
+      padding: 16px;
+      border-radius: 14px;
+      background: #ffffff;
+      border: 1px solid rgba(15, 39, 71, 0.08);
+      color: var(--text);
+      line-height: 1.7;
+      white-space: pre-line;
+    }
+
+    .preview-note {
+      margin: 14px 0 0;
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 0.98rem;
+    }
+
+    @media (max-width: 900px) {
+      .hero__shell {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      h1 {
+        max-width: none;
+      }
+
+      .visual {
+        order: -1;
+      }
+
+      .visual__card {
+        aspect-ratio: 16 / 10;
+      }
+
+      .steps,
+      .examples,
+      .points {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .hero {
+        padding: 12px;
+      }
+
+      .hero__shell {
+        padding: 14px;
+        border-radius: 20px;
+      }
+
+      .hero__copy {
+        padding: 8px;
+      }
+
+      h1 {
+        font-size: clamp(2rem, 8.8vw, 2.8rem);
+        line-height: 1.04;
+      }
+
+      .subheadline {
+        font-size: 0.98rem;
+      }
+
+      .cta {
+        width: 100%;
+      }
+
+      .visual {
+        padding: 10px;
+      }
+
+      .visual__card {
+        aspect-ratio: 16 / 11;
+        padding: 10px;
+      }
+
+      .page {
+        width: min(1120px, calc(100% - 24px));
+        margin-bottom: 32px;
+      }
+
+      .section {
+        padding: 18px;
+        border-radius: 20px;
+      }
+
+      .section-intro,
+      .section-close,
+      .preview-note {
+        font-size: 0.95rem;
+      }
+
+      .preview-card {
+        padding: 14px;
+      }
+
+      .preview-code,
+      .preview-text {
+        padding: 12px;
+      }
+
+      .page > .section + .section {
+        margin-top: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section class="hero">
+    <div class="hero__shell">
+      <div class="hero__copy">
+        <p class="eyebrow">$29 Digital Product</p>
+        <h1>Generate Personalised LinkedIn Openers in Seconds</h1>
+        <p class="subheadline">Paste profile text, run the AI prompts, and get a ready-to-send opening line in seconds.</p>
+        <div class="hero__actions">
+          <a class="cta" href="#">Get the AI Outreach Generator</a>
+          <p class="trust">Instant download &bull; One-time payment &bull; Works with ChatGPT</p>
+          <p class="risk-reversal">14 day money back guarantee, if you don&#39;t find it valuable, don&#39;t pay</p>
+        </div>
+      </div>
+      <div class="visual" aria-label="Visual demonstration placeholder">
+        <div class="visual__card">
+          <img class="visual__image" src="productuseimage.jpg" alt="Product demonstration showing LinkedIn profile text transformed into an AI-generated outreach opener">
+        </div>
+      </div>
+    </div>
+  </section>
+  <main class="page">
+    <section class="section">
+      <h2>How It Works</h2>
+      <p class="section-intro">Take profile text, run the prompts, and use the opener in your outreach.</p>
+      <ol class="steps">
+        <li>
+          <h3>Copy text from a LinkedIn profile</h3>
+          <p>Take the profile details you want to use as your starting point.</p>
+        </li>
+        <li>
+          <h3>Paste it into the prompt templates</h3>
+          <p>Drop the text into the included prompts and follow the workflow.</p>
+        </li>
+        <li>
+          <h3>Generate a personalized opening line with AI</h3>
+          <p>Use the prompts to turn the profile information into a more tailored opener.</p>
+        </li>
+        <li>
+          <h3>Use it in your outreach</h3>
+          <p>Take the final line and place it straight into your LinkedIn message.</p>
+        </li>
+      </ol>
+      <div class="placeholder-box">
+        <img class="workflow-image" src="productuselandscape.jpg" alt="Workflow demonstration showing LinkedIn profile text, prompt workflow, and personalized opener">
+      </div>
+      <p class="section-cta-line">Get the toolkit and start using it today.</p>
+    </section>
+
+    <section class="section">
+      <h2>What You Get</h2>
+      <p class="section-intro">A practical toolkit built to help you go from profile text to a better opener without wasting time.</p>
+      <ul class="get-list">
+        <li>Prompt templates for generating personalized LinkedIn opening lines.</li>
+        <li>A simple workflow for turning profile text into better outreach.</li>
+        <li>Example opener formats and variations you can adapt quickly.</li>
+        <li>Guidance on how to get stronger outputs from AI.</li>
+        <li>Ready-to-use examples you can model immediately.</li>
+      </ul>
+      <p class="section-close">Open it, follow the workflow, and start using it right away.</p>
+    </section>
+
+    <section class="section">
+      <h2>Example Prompt Preview</h2>
+      <p class="section-intro">Here is one simple example of the kind of prompt structure included in the toolkit.</p>
+      <div class="preview-card">
+        <div class="preview-block">
+          <span class="preview-label">Prompt</span>
+          <p class="preview-code">Using the LinkedIn profile text below, write one personalized outreach opener.
+Keep it natural, specific, and under 30 words.
+Reference one concrete detail from the profile.
+Avoid sounding generic, exaggerated, or salesy.</p>
+        </div>
+        <div class="preview-block">
+          <span class="preview-label">Input</span>
+          <p class="preview-text">Founder at a B2B SaaS agency helping teams improve outbound performance.</p>
+        </div>
+        <div class="preview-block">
+          <span class="preview-label">Output</span>
+          <p class="preview-text">Saw your focus on improving outbound performance for SaaS teams &mdash; curious what patterns you&rsquo;re seeing right now?</p>
+        </div>
+      </div>
+      <p class="preview-note">This gives you a clear starting point so you are not figuring out the structure from scratch.</p>
+    </section>
+
+    <section class="section">
+      <h2>Example Outputs</h2>
+      <p class="section-intro">These examples show the kind of profile-based opener this workflow helps you create.</p>
+      <div class="examples">
+        <article class="example__panel">
+          <span class="label">Input</span>
+          <p class="example-copy">Agency founder profile text mentioning paid social for ecommerce brands and a recent post about lowering CAC.</p>
+          <span class="label">Output</span>
+          <p class="example-copy">Saw your note on lowering CAC for ecommerce brands. That focus stood out because most agencies lead with scale, not efficiency.</p>
+          <div class="example-placeholder">
+            <img class="example-image" src="eg.1.jpg" alt="Example one showing profile text snippet and personalized outreach opener">
+          </div>
+          <p>It uses a specific profile detail to make the opener feel relevant instead of generic.</p>
+        </article>
+        <article class="example__panel">
+          <span class="label">Input</span>
+          <p class="example-copy">Consultant profile text describing RevOps work for B2B SaaS teams and experience fixing sales to marketing handoffs.</p>
+          <span class="label">Output</span>
+          <p class="example-copy">Your RevOps work around sales and marketing handoffs caught my eye. That is usually where a lot of avoidable pipeline friction shows up.</p>
+          <div class="example-placeholder">
+            <img class="example-image" src="eg.2.jpg" alt="Example two showing profile text snippet and personalized outreach opener">
+          </div>
+          <p>It pulls directly from the consulting focus so the message feels grounded in the profile.</p>
+        </article>
+        <article class="example__panel">
+          <span class="label">Input</span>
+          <p class="example-copy">Recruiter profile text highlighting technical leadership hiring and a recent comment about candidate experience in niche markets.</p>
+          <span class="label">Output</span>
+          <p class="example-copy">Noticed your focus on technical leadership hiring and candidate experience. That combination is rare and probably makes your outreach more effective.</p>
+          <div class="example-placeholder">
+            <img class="example-image" src="eg.3.jpg" alt="Example three showing profile text snippet and personalized outreach opener">
+          </div>
+          <p>It turns clear profile information into an opener that sounds personal without sounding forced.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Why This Is Worth Buying Instead of Doing It Yourself</h2>
+      <p class="section-intro">You are not paying for access to AI. You are paying for a faster path to better output with less effort.</p>
+      <div class="points">
+        <article class="point">
+          <h3>Faster workflow</h3>
+          <p>The steps are already organized for this exact use case, so you can go from profile text to opener without figuring out the process each time.</p>
+        </article>
+        <article class="point">
+          <h3>Better prompt structure</h3>
+          <p>Instead of improvising from scratch, you start with prompts built specifically for writing personalized LinkedIn openers.</p>
+        </article>
+        <article class="point">
+          <h3>Better examples and standards</h3>
+          <p>You get clearer reference points for what a strong opener looks like, which makes weak outputs easier to spot and improve.</p>
+        </article>
+        <article class="point">
+          <h3>Less blank-page friction</h3>
+          <p>You spend less time guessing, rewriting, and second-guessing, which makes getting outreach done much easier.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section cta-close">
+      <h2>Get the Toolkit and Start Fast</h2>
+      <p>A simple $29 digital product for turning LinkedIn profile text into practical, more personalized outreach openers without starting from scratch every time.</p>
+      <a class="cta" href="#">Buy the AI Outreach Generator</a>
+      <p class="trust">Instant download &bull; One-time payment &bull; Start using it in minutes</p>
+      <p class="risk-reversal">14 day money back guarantee, if you don&#39;t find it valuable, don&#39;t pay</p>
+    </section>
+  </main>
+</body>
+</html>
